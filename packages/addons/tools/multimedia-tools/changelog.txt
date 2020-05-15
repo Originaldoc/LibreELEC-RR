@@ -1,9 +1,3 @@
-111
-- drop mesa-demos and mpv
-
-110
-- Add mpv
-
 109
 - Update squeezelite to b2ed99e and support all possible media formats
 

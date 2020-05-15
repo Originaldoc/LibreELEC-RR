@@ -20,9 +20,5 @@ pre_configure_target() {
 }
 
 makeinstall_target() {
-  #install libs for chrome & spotify
-  mkdir -p $INSTALL/usr/lib
-  cp -PR pango/libpango-?.?.so* $INSTALL/usr/lib
-  cp -PR pango/libpangocairo-?.?.so* $INSTALL/usr/lib
-  cp -PR pango/libpangoft2-?.?.so* $INSTALL/usr/lib
+  :
 }

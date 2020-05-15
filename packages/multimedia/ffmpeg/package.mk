@@ -9,7 +9,7 @@ PKG_SHA256="e11e7594af35f36ab2711252c3d6bb106908f26605498aef4a9be2d7bc001db2"
 PKG_LICENSE="LGPLv2.1+"
 PKG_SITE="https://ffmpeg.org"
 PKG_URL="https://github.com/xbmc/FFmpeg/archive/${PKG_VERSION}.tar.gz"
-PKG_DEPENDS_TARGET="toolchain zlib bzip2 gnutls speex x264-system libvpx-system flac-system lame-system opus-system"
+PKG_DEPENDS_TARGET="toolchain zlib bzip2 openssl speex"
 PKG_LONGDESC="FFmpeg is a complete, cross-platform solution to record, convert and stream audio and video."
 PKG_BUILD_FLAGS="-gold"
 
@@ -17,7 +17,6 @@ PKG_BUILD_FLAGS="-gold"
 get_graphicdrivers
 
 if [ "$V4L2_SUPPORT" = "yes" ]; then
-  PKG_PATCH_DIRS+=" v4l2"
   PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET libdrm"
   PKG_FFMPEG_V4L2="--enable-v4l2_m2m --enable-libdrm"
 else
@@ -58,9 +57,13 @@ else
   PKG_FFMPEG_DEBUG="--disable-debug --enable-stripping"
 fi
 
-if [ "$KODIPLAYER_DRIVER" = "bcm2835-driver" ]; then
+if [ "$PROJECT" = "RPi" ]; then
   PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET bcm2835-driver"
-  PKG_PATCH_DIRS+=" rpi-hevc"
+  if [ "$DEVICE" = "RPi4" ]; then
+   PKG_PATCH_DIRS+=" rpi4-hevc"
+  else
+   PKG_PATCH_DIRS+=" rpi-hevc"
+ fi
 fi
 
 if target_has_feature neon; then
@@ -78,16 +81,11 @@ if target_has_feature "(neon|sse)"; then
   PKG_FFMPEG_AV1="--enable-libdav1d"
 fi
 
-if [ "${NON_FREE_PKG_SUPPORT}" = "yes" ]; then
-  PKG_DEPENDS_TARGET+=" fdk-aac"
-  PKG_FFMPEG_AAC_FDK="--enable-nonfree --enable-libfdk-aac"
-fi
-
 pre_configure_target() {
   cd $PKG_BUILD
   rm -rf .$TARGET_NAME
 
-  if [ "$KODIPLAYER_DRIVER" = "bcm2835-driver" ]; then
+  if [ "$PROJECT" = "RPi" ]; then
     PKG_FFMPEG_LIBS="-lbcm_host -lvcos -lvchiq_arm -lmmal -lmmal_core -lmmal_util -lvcsm"
     PKG_FFMPEG_RPI="--enable-rpi"
   fi
@@ -117,6 +115,7 @@ configure_target() {
               --enable-shared \
               --enable-gpl \
               --disable-version3 \
+              --enable-nonfree \
               --enable-logging \
               --disable-doc \
               $PKG_FFMPEG_DEBUG \
@@ -134,7 +133,7 @@ configure_target() {
               --disable-devices \
               --enable-pthreads \
               --enable-network \
-              --enable-gnutls --disable-openssl \
+              --disable-gnutls --enable-openssl \
               --disable-gray \
               --enable-swscale-alpha \
               --disable-small \
@@ -154,18 +153,9 @@ configure_target() {
               --disable-encoders \
               --enable-encoder=ac3 \
               --enable-encoder=aac \
-              ${PKG_FFMPEG_AAC_FDK} \
               --enable-encoder=wmav2 \
               --enable-encoder=mjpeg \
               --enable-encoder=png \
-              --enable-encoder=gif \
-              --enable-encoder=libx264 \
-              --enable-encoder=libx264rgb \
-              --enable-encoder=libvpx_vp8 \
-              --enable-encoder=libvpx_vp9 \
-              --enable-encoder=flac \
-              --enable-encoder=libmp3lame \
-              --enable-encoder=libopus \
               --enable-hwaccels \
               --disable-muxers \
               --enable-muxer=spdif \
@@ -173,11 +163,6 @@ configure_target() {
               --enable-muxer=asf \
               --enable-muxer=ipod \
               --enable-muxer=mpegts \
-              --enable-muxer=flv \
-              --enable-muxer=gif \
-              --enable-muxer=matroska \
-              --enable-muxer=mp4 \
-              --enable-muxer=webm \
               --enable-demuxers \
               --enable-parsers \
               --enable-bsfs \
@@ -196,8 +181,7 @@ configure_target() {
               --disable-libdc1394 \
               --disable-libfreetype \
               --disable-libgsm \
-              --enable-libmp3lame \
-              --enable-libopus \
+              --disable-libmp3lame \
               --disable-libopenjpeg \
               --disable-librtmp \
               $PKG_FFMPEG_AV1 \
@@ -205,8 +189,8 @@ configure_target() {
               --disable-libtheora \
               --disable-libvo-amrwbenc \
               --disable-libvorbis \
-              --enable-libvpx \
-              --enable-libx264 \
+              --disable-libvpx \
+              --disable-libx264 \
               --disable-libxavs \
               --disable-libxvid \
               --enable-zlib \

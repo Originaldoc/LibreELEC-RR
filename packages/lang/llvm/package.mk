@@ -3,12 +3,12 @@
 # Copyright (C) 2018-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="llvm"
-PKG_VERSION="9.0.0"
-PKG_SHA256="d6a0565cf21f22e9b4353b2eb92622e8365000a9e90a16b09b56f8157eabfe84"
+PKG_VERSION="8.0.0"
+PKG_SHA256="8872be1b12c61450cacc82b3d153eab02be2546ef34fa3580ed14137bb26224c"
 PKG_ARCH="x86_64"
-PKG_LICENSE="Apache-2.0"
+PKG_LICENSE="GPL"
 PKG_SITE="http://llvm.org/"
-PKG_URL="https://releases.llvm.org/${PKG_VERSION}/llvm-${PKG_VERSION}.src.tar.xz"
+PKG_URL="http://llvm.org/releases/$PKG_VERSION/${PKG_NAME}-${PKG_VERSION}.src.tar.xz"
 PKG_DEPENDS_HOST="toolchain"
 PKG_DEPENDS_TARGET="toolchain llvm:host zlib"
 PKG_LONGDESC="Low-Level Virtual Machine (LLVM) is a compiler infrastructure."
@@ -25,7 +25,7 @@ PKG_CMAKE_OPTS_COMMON="-DLLVM_INCLUDE_TOOLS=ON \
                        -DLLVM_INCLUDE_DOCS=OFF \
                        -DLLVM_ENABLE_DOXYGEN=OFF \
                        -DLLVM_ENABLE_SPHINX=OFF \
-                       -DLLVM_TARGETS_TO_BUILD='AMDGPU;X86' \
+                       -DLLVM_TARGETS_TO_BUILD="AMDGPU" \
                        -DLLVM_ENABLE_TERMINFO=OFF \
                        -DLLVM_ENABLE_ASSERTIONS=OFF \
                        -DLLVM_ENABLE_WERROR=OFF \
@@ -34,8 +34,7 @@ PKG_CMAKE_OPTS_COMMON="-DLLVM_INCLUDE_TOOLS=ON \
                        -DLLVM_LINK_LLVM_DYLIB=ON \
                        -DLLVM_OPTIMIZED_TABLEGEN=ON \
                        -DLLVM_APPEND_VC_REV=OFF \
-                       -DLLVM_ENABLE_RTTI=ON \
-                       -DLLVM_ENABLE_UNWIND_TABLES=OFF"
+                       -DLLVM_ENABLE_RTTI=ON"
 
 PKG_CMAKE_OPTS_HOST="$PKG_CMAKE_OPTS_COMMON \
                      -DCMAKE_INSTALL_RPATH=$TOOLCHAIN/lib"

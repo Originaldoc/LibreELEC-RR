@@ -1,8 +1,6 @@
 <settings version="2">
     <setting id="ss_cp" default="true">1705</setting>
-    <setting id="ss_mu" default="true">false</setting>
     <setting id="ss_ni" default="true">0</setting>
-    <setting id="ss_pc" default="true">100</setting>
     <setting id="ss_sp" default="true">1704</setting>
     <setting id="ss_st" default="true">AirPlay</setting>
 </settings>

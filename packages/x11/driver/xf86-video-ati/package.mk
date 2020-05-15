@@ -13,8 +13,7 @@ PKG_DEPENDS_TARGET="toolchain xorg-server"
 PKG_LONGDESC="The ati driver supports various ATi, know AMD, video chips."
 PKG_TOOLCHAIN="autotools"
 
-PKG_CONFIGURE_OPTS_TARGET="--enable-glamor \
-                           --with-xorg-module-dir=$XORG_PATH_MODULES"
+PKG_CONFIGURE_OPTS_TARGET="--enable-glamor --with-xorg-module-dir=$XORG_PATH_MODULES"
 
 post_makeinstall_target() {
   mkdir -p $INSTALL/etc/X11

@@ -43,7 +43,7 @@
     PROJECT_CFLAGS=""
 
   # SquashFS compression method (gzip / lzo / xz / zstd)
-    SQUASHFS_COMPRESSION="zstd"
+    SQUASHFS_COMPRESSION="gzip"
 
 
 ################################################################################
@@ -59,14 +59,17 @@
   # OpenGL-ES implementation to use (no / bcm2835-driver / gpu-viv-bin-mx6q)
     OPENGLES="no"
 
-  # Vulkan API support (yes / no)
-    VULKANAPI="yes"
+  # include uvesafb support (yes / no)
+    UVESAFB_SUPPORT="yes"
 
   # Displayserver to use (x11 / no)
     DISPLAYSERVER="x11"
 
   # KODI Player implementation to use (default / bcm2835-driver / libfslvpuwrap)
     KODIPLAYER_DRIVER="default"
+
+  # Modules to install in initramfs for early boot
+    INITRAMFS_MODULES=""
 
   # additional Firmware to use (dvb-firmware, misc-firmware, wlan-firmware)
   # Space separated list is supported,

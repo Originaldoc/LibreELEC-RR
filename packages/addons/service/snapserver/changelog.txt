@@ -1,8 +1,3 @@
-103
-- Stream Airplay, Default, Kodi and Librespot simultaneously
-- Basic client stream control
-- Use ALSA for streaming Kodi rather than PulseAudio
-
 102
 - Update to 0.15.0
 

@@ -3,8 +3,8 @@
 # Copyright (C) 2018-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="audiodecoder.modplug"
-PKG_VERSION="2.0.1-Leia"
-PKG_SHA256="4aa94ec401c76ad5b98dcc96534cb5340e837fd942eb352d7932dee95cb54bc9"
+PKG_VERSION="2.0.3-Leia"
+PKG_SHA256="6827f1ebefa5f281ace52bdf83b5ab95789c77b88a344524ead1b346668d57e7"
 PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPL"

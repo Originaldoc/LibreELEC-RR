@@ -133,7 +133,7 @@ post_makeinstall_target() {
   fi
 
   mkdir -p $INSTALL/etc/X11
-    if find_file_path config/xorg*.conf ; then
+    if find_file_path config/xorg.conf ; then
       cp $FOUND_PATH $INSTALL/etc/X11
     fi
 }

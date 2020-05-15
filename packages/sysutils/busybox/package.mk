@@ -126,7 +126,6 @@ makeinstall_target() {
     cp $PKG_DIR/scripts/createlog $INSTALL/usr/bin/
     cp $PKG_DIR/scripts/dtfile $INSTALL/usr/bin
     cp $PKG_DIR/scripts/dtname $INSTALL/usr/bin
-    cp $PKG_DIR/scripts/dtsoc $INSTALL/usr/bin
     cp $PKG_DIR/scripts/lsb_release $INSTALL/usr/bin/
     cp $PKG_DIR/scripts/apt-get $INSTALL/usr/bin/
     cp $PKG_DIR/scripts/sudo $INSTALL/usr/bin/
@@ -183,6 +182,7 @@ post_install() {
   add_group nogroup 65534
 
   enable_service shell.service
+  enable_service show-version.service
   enable_service var.mount
   enable_service fs-resize.service
   listcontains "${FIRMWARE}" "rpi-eeprom" && enable_service rpi-flash-firmware.service

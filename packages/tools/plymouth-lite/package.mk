@@ -10,6 +10,10 @@ PKG_URL="$DISTRO_SRC/$PKG_NAME-$PKG_VERSION.tar.bz2"
 PKG_DEPENDS_INIT="toolchain gcc:init libpng"
 PKG_LONGDESC="Boot splash screen based on Fedora's Plymouth code"
 
+if [ "$UVESAFB_SUPPORT" = yes ]; then
+  PKG_DEPENDS_INIT="$PKG_DEPENDS_INIT v86d:init"
+fi
+
 pre_configure_init() {
   # plymouth-lite dont support to build in subdirs
   cd $PKG_BUILD
@@ -23,8 +27,4 @@ makeinstall_init() {
   mkdir -p $INSTALL/splash
     find_file_path splash/splash.conf && cp ${FOUND_PATH} $INSTALL/splash
     find_file_path "splash/splash-*.png" && cp ${FOUND_PATH} $INSTALL/splash
- 
-  mkdir -p $INSTALL/usr/lib
-    cp -a $(get_build_dir libpng)/.install_pkg/usr/lib/libpng*so* $INSTALL/usr/lib/
-    cp -a $(get_build_dir zlib)/.install_pkg/usr/lib/libz*so* $INSTALL/usr/lib/
 }

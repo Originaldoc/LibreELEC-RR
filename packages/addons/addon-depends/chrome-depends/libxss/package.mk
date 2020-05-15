@@ -14,7 +14,5 @@ PKG_BUILD_FLAGS="+pic"
 PKG_CONFIGURE_OPTS_TARGET="--enable-malloc0returnsnull"
 
 makeinstall_target() {
-  #install libs for chrome & spotify
-  mkdir -p $INSTALL/usr/lib
-  cp -PR src/.libs/libXss.so* $INSTALL/usr/lib
+  :
 }

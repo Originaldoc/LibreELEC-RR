@@ -3,9 +3,9 @@
 # Copyright (C) 2018-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="audiodecoder.qsf"
-PKG_VERSION="2.0.0-Leia"
-PKG_SHA256="3da3f35ce47e91c1cb24d5a62012e7e6d99ef52a5a5cc39e4b65e9bcf56a5d7e"
-PKG_REV="4"
+PKG_VERSION="2.0.2-Leia"
+PKG_SHA256="2336a2902120f9a154fbde85ebec303bd5452fae559b59529d408be31c11216b"
+PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/xbmc/audiodecoder.qsf"

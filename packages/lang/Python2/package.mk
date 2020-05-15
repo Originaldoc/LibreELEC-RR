@@ -29,6 +29,8 @@ PKG_CONFIGURE_OPTS_TARGET="ac_cv_file_dev_ptc=no \
                            ac_cv_func_chflags_works=no \
                            ac_cv_func_printf_zd=yes \
                            ac_cv_buggy_getaddrinfo=no \
+                           ac_cv_header_bluetooth_bluetooth_h=no \
+                           ac_cv_header_bluetooth_h=no \
                            ac_cv_file__dev_ptmx=no \
                            ac_cv_file__dev_ptc=no \
                            ac_cv_have_long_long_format=yes \
@@ -100,7 +102,7 @@ makeinstall_target() {
 post_makeinstall_target() {
   rm -fr $PKG_BUILD/.$TARGET_NAME/build/temp.*
 
-  for dir in bsddb idlelib lib-tk lib2to3 msilib pydoc_data test unittest; do
+  for dir in bsddb idlelib lib-tk lib2to3/tests msilib pydoc_data test unittest; do
     rm -rf $INSTALL/usr/lib/python*/$dir
   done
 

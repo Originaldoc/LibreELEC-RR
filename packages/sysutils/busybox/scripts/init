@@ -203,7 +203,7 @@ mount_nfs() {
 
   [ "$NFS_OPTIONS" = "$1" ] && NFS_OPTIONS=
 
-  mount_common "$NFS_EXPORT" "$2" "$3,nolock,soft,timeo=3,retrans=2,rsize=32768,wsize=32768,$NFS_OPTIONS" "nfs"
+  mount_common "$NFS_EXPORT" "$2" "$3,nolock,rsize=32768,wsize=32768,$NFS_OPTIONS" "nfs"
 }
 
 mount_ubifs() {
@@ -263,7 +263,7 @@ mount_sysroot() {
 get_project_arch() {
   if [ -f ${1}/etc/os-release ]; then
     . ${1}/etc/os-release
-    echo "${OPENELEC_ARCH:-${LIBREELEC_ARCH}}"
+    echo "${LIBREELEC_ARCH:-${OPENELEC_ARCH}}"
   fi
 }
 
@@ -386,6 +386,12 @@ load_splash() {
 
   if [ ! "$SPLASH" = "no" ]; then
     progress "Loading bootsplash"
+
+    # load uvesafb module if needed
+    if [ -f "$MODULE_DIR/uvesafb.ko" -a ! -e /dev/fb0 ]; then
+      progress "Loading kernel module uvesafb.ko"
+      insmod "$MODULE_DIR/uvesafb.ko" && set_default_res=yes || progress "... Failed to load kernel module uvesafb, skipping"
+    fi
 
     if [ -e /dev/fb0 ]; then
       # Set framebuffer to a custom resolution and/or fallback to default resolution (1024x768-32), if required.
@@ -527,7 +533,9 @@ check_disks() {
         break
       fi
     done
-    sed -e '/^$/d' -e 's/^/fsck: /' </dev/fsck.latest >/dev/kmsg
+    while read line; do
+      [ -n "$line" ] && echo "fsck: ${line::160}" >/dev/kmsg
+    done </dev/fsck.latest
     rm -f /dev/fsck.latest
   fi
 }
@@ -568,10 +576,13 @@ mount_flash() {
 cleanup_flash() {
   progress "Cleaning up flash (if required)"
 
-  if [ -f /flash/pieeprom.upd ]; then
+  if [ -f /flash/pieeprom.bin -o -f /flash/pieeprom.upd -o -f /flash/vl805.bin ]; then
     mount -o remount,rw /flash
-    rm -f /flash/pieeprom.bin /flash/pieeprom.upd
+
+    rm -f /flash/pieeprom.bin /flash/pieeprom.upd /flash/pieeprom.sig
+    rm -f /flash/vl805.bin /flash/vl805.sig
     rm -f /flash/recovery.bin /flash/recovery.[0-9][0-9][0-9] /flash/RECOVERY.[0-9][0-9][0-9]
+
     mount -o remount,ro /flash
   fi
 }
@@ -670,6 +681,10 @@ check_out_of_space() {
 
 do_cleanup() {
   StartProgress spinner "Cleaning up... "
+
+  if mountpoint -q /update; then
+    umount /update
+  fi
 
   if [ -d $UPDATE_ROOT/.tmp/mnt ]; then
     if mountpoint -q $UPDATE_ROOT/.tmp/mnt ; then
@@ -932,7 +947,6 @@ check_update() {
   umount /sysroot
   update_file "System" "$UPDATE_SYSTEM" "/flash/$IMAGE_SYSTEM"
   update_bootloader
-  umount /update
   do_cleanup
   do_reboot
 }
@@ -1068,6 +1082,9 @@ for arg in $(cat /proc/cmdline); do
     bigfont=*)
       BIGFONT="${arg#*=}"
       ;;
+    ip=*)
+      KERNEL_IPCONFIG="yes"
+      ;;
   esac
 done
 
@@ -1134,6 +1151,10 @@ fi
 
 if [ "$FLASH_NETBOOT" = "yes" ]; then
   echo "" > /sysroot/dev/.flash_netboot
+fi
+
+if [ "$KERNEL_IPCONFIG" = "yes" ]; then
+  echo "" > /sysroot/dev/.kernel_ipconfig
 fi
 
 # swap can not be used over nfs.(see scripts/mount-swap)

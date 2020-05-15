@@ -11,3 +11,5 @@ PKG_URL="http://xorg.freedesktop.org/archive/individual/lib/$PKG_NAME-$PKG_VERSI
 PKG_DEPENDS_TARGET="toolchain util-macros libXfixes libXext libX11"
 PKG_LONGDESC="X Composite Library"
 PKG_BUILD_FLAGS="+pic"
+
+PKG_CONFIGURE_OPTS_TARGET="--enable-static --disable-shared"

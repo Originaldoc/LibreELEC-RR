@@ -10,25 +10,17 @@ msgid "Configuration"
 msgstr ""
 
 msgctxt "#30001"
-msgid "Set stream"
-msgstr ""
-
-msgctxt "#30002"
 msgid "Server port"
 msgstr ""
 
-msgctxt "#30003"
+msgctxt "#30002"
 msgid "Control port"
 msgstr ""
 
-msgctxt "#30004"
+msgctxt "#30003"
 msgid "Priority"
 msgstr ""
 
-msgctxt "#30010"
-msgid "Restart Kodi to enable Snapcast for Kodi?"
-msgstr ""
-
-msgctxt "#30020"
-msgid "Select stream"
+msgctxt "#30004"
+msgid "Stream"
 msgstr ""

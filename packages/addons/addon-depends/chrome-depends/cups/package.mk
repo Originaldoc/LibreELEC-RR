@@ -25,5 +25,5 @@ pre_configure_target() {
 }
 
 makeinstall_target() {
-  make BUILDROOT="$INSTALL/../.install_pkg" install-libs
+  make BUILDROOT="$INSTALL/../.INSTALL_PKG"
 }

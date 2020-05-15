@@ -2,8 +2,8 @@
 # Copyright (C) 2018-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="mali-midgard"
-PKG_VERSION="fe58463f54e3d8b204bae7e0292a054f583cc0f7" # TX011-SW-99002-r28p0-01rel0
-PKG_SHA256="4befe8cd5494fccdbea478a5b374b7e4f1e0d10ba5e9a35b88b5edd8bde7151c"
+PKG_VERSION="9ce33e456c9320b90f7ce8770262c852a77e4b81" # TX011-SW-99002-r28p0-01rel0
+PKG_SHA256="ef8808d0d0535449cd23410832bcb7433e35568afcbb75683608a7df9dd536bc"
 PKG_ARCH="arm aarch64"
 PKG_LICENSE="GPL"
 PKG_SITE="https://developer.arm.com/products/software/mali-drivers/"
@@ -16,7 +16,8 @@ PKG_IS_KERNEL_PKG="yes"
 
 case $PROJECT in
   Allwinner)
-    PKG_CONFIGS="CONFIG_MALI_PLATFORM_NAME=sunxi"
+    PKG_EXTRA_CFLAGS="-DCONFIG_MALI_DEVFREQ -DCONFIG_MALI_PLATFORM_DEVICETREE"
+    PKG_CONFIGS="CONFIG_MALI_DEVFREQ=y"
     ;;
   Amlogic)
     PKG_CONFIGS="CONFIG_MALI_PLATFORM_NAME=meson"
